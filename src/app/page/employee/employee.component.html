@@ -1,0 +1,274 @@
+<div class="page-content">
+  <div class="content">
+    <div class="page-title">
+      <i [routerLink]="['/page/home']" routerLinkActive="router-link-active" style="cursor: pointer"
+        class="icon-custom-left"></i>
+      <h3 style="padding-top: 10px">Employee Detail</h3>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <div class="pull-left" style="padding-bottom: 10px" *ngIf="isAdmin">
+              <button class="btn btn-primary btn-cons " [routerLink]="['/page/ListEmployee']"
+                routerLinkActive="router-link-active">
+                Add Employee
+              </button>
+            </div>
+            <div class="row-fluid">
+              <div class="span12">
+                <div class="grid simple ">
+                  <div class="grid-title">
+                    <h4 style="font-family: monospace;font-size: xx-large;">
+                      Employee List
+                    </h4>
+                    <form>
+                      <div class="row form-row mr-2">
+                        <div class="col-md-6">
+                          <input type="text" class="form-control" (input)="SerchEmployee($event)"
+                            placeholder="General Search....." />
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <ngx-datatable class="material" [rows]="rows" [columnMode]="'force'" [headerHeight]="60"
+                    [footerHeight]="60" [limit]="5" [rowHeight]="'auto'" [sortType]="'single'">
+                    <ngx-datatable-column name="Name">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.Fname }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Email">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.Email }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="BirthDate">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.DOB }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="PhoneNumber">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.Phoneno }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Designation">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.DesignationName }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Refrence">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.Refrence }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Resume">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <button class="btn" (click)="downlodImage(row.Resume)" type="button" *ngIf="row && row.Resume">
+                          <i class="fa fa-cloud-download"></i>
+                        </button>
+                        <a *ngIf="row && !row.Resume"> Not Upload
+
+                        </a>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="PanPhoto">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <img data-toggle="modal" data-target="#MyModal" src="{{ imageEnvironment + row.PanPhoto }}"
+                          alt="Trulli" (click)="
+                            image(row.PanPhoto, row.Fname, 'PanCardphoto')
+                          " style="cursor: pointer" width="50" height="50" *ngIf="row && row.PanPhoto">
+                        <img src="../../../assets/download.png" alt="Trulli" width="50" height="50"
+                          *ngIf="row && !row.PanPhoto">
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="AadharPhoto">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <img data-toggle="modal" data-target="#MyModal" src="{{ imageEnvironment + row.AadharPhoto }}"
+                          alt="Trulli" (click)="
+                            image(row.AadharPhoto, row.Fname, 'AadharCardPhoto')
+                          " style="cursor: pointer" width="50" height="50" *ngIf=" row && row.AadharPhoto">
+                        <img src="../../../assets/download.png" alt="Trulli" width="50" height="50"
+                          *ngIf="row && !row.AadharPhoto">
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Action">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu"
+                          aria-label="Example icon-button with a menu">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item style="outline: none" (click)="updateEmployee(row._id)">
+                            <i class="fa fa-edit" style="font-size:22px"></i>
+                            <span style="padding-left: 15px; font-size: 15px">Edit
+                            </span>
+                          </button>
+                          <button mat-menu-item (click)="deleteEmployee(row._id)">
+                            <i class="fa fa-trash-o" style="font-size:22px"></i>
+                            <span style="padding-left: 20px; font-size: 15px">Delete
+                            </span>
+                          </button>
+                          <button mat-menu-item data-toggle="modal" style="outline: none" data-target="#myModal"
+                            (click)="employeeList(row)">
+                            <i class="fa fa-plus-circle" style="font-size:22px"></i>
+                            <span style="padding-left: 20px; font-size: 15px">More
+                            </span>
+                          </button>
+                        </mat-menu>
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" *ngIf="employeeDetaile">
+  <div class="modal-dialog modal-xxl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Employee Detail</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body pt-0 mb-3">
+        <div class="row">
+          <div class="col-md-12 bg-primary mb-2">
+            <div class="row mb-1 mt-2">
+              <div class="col-md-10">
+                <h6>Personal Information</h6>
+              </div>
+              <div class="col-md-2">
+                <i class="material-icons">
+                  account_box
+                </i>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3"><b>Name</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.Fname }} {{ employeeDetaile.Lname }}</p>
+          </div>
+          <div class="col-md-3"><b>Email</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.Email }}</p>
+          </div>
+          <div class="col-md-3"><b>Address</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.Address }}</p>
+          </div>
+          <div class="col-md-3"><b>Phone No.</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.Phoneno }}</p>
+          </div>
+          <div class="col-md-3"><b>BirthDate</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.DOB }}</p>
+          </div>
+          <div class="col-md-3"><b>Gender</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.Fname }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-body pt-0 mb-3">
+        <div class="row">
+          <div class="col-md-12 bg-primary mb-2">
+            <div class="row mb-1 mt-2">
+              <div class="col-md-10">
+                <h6>Offical Information</h6>
+              </div>
+              <div class="col-md-2">
+                <i class="material-icons">
+                  work
+                </i>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3"><b>Refrence</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.Refrence }}</p>
+          </div>
+          <div class="col-md-3"><b>Experience</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.TotalExperience }}</p>
+          </div>
+          <div class="col-md-3"><b>Salary</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.Salary }}</p>
+          </div>
+          <div class="col-md-3"><b>Designation</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.DesignationName }}</p>
+          </div>
+          <div class="col-md-3"><b>Joiningdate</b></div>
+          <div class="col-md-1">:</div>
+          <div class="col-md-8">
+            <p>{{ employeeDetaile.DOJ }}</p>
+          </div>
+
+          <div class="col-md-3" *ngIf="employeeDetaile &&  employeeDetaile.DOL"><b>leavedate</b></div>
+          <div class="col-md-1" *ngIf="employeeDetaile &&  employeeDetaile.DOL">:</div>
+          <div class="col-md-8" *ngIf="employeeDetaile &&  employeeDetaile.DOL">
+            <p>{{ employeeDetaile.DOL }}</p>
+          </div>
+
+          <div class="col-md-3" *ngIf="employeeDetaile &&  employeeDetaile.Aadharno"><b>Aadharnumber</b></div>
+          <div class="col-md-1" *ngIf="employeeDetaile &&  employeeDetaile.Aadharno">:</div>
+          <div class="col-md-8" *ngIf="employeeDetaile &&  employeeDetaile.Aadharno">
+            <p>{{ employeeDetaile.Aadharno }}</p>
+          </div>
+          <div class="col-md-3" *ngIf="employeeDetaile &&  employeeDetaile.Panno"><b>Pannumber</b></div>
+          <div class="col-md-1" *ngIf="employeeDetaile &&  employeeDetaile.Panno">:</div>
+          <div class="col-md-8" *ngIf="employeeDetaile &&  employeeDetaile.Panno">
+            <p>{{ employeeDetaile.Panno }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="MyModal">
+  <div class="modal-dialog modal-xxl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Photo</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body pt-0 mb-3">
+        <img src="{{ photo && imageEnvironment + photo }}" alt="Trulli" width="450" height="400" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

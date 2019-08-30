@@ -1,0 +1,248 @@
+<div class="page-content">
+  <div class="content">
+    <div class="page-title">
+      <i [routerLink]="['/page/home']" routerLinkActive="router-link-active" style="cursor: pointer"
+        class="icon-custom-left"></i>
+      <h3 style="padding-top: 10px">Timesheet</h3>
+    </div>
+    <div class="row">
+      <div class="col-md-12" *ngIf="!isAdmin">
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Add Timesheet Report
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <hr />
+            <form [formGroup]="task" (ngSubmit)="submit(task.value, task.valid)">
+              <div class="grid-body no-border">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Select Project :</label>
+                      <ng-select [options]="options" formControlName="Project">
+                      </ng-select>
+                      <span class="help-block" *ngIf="istask && !task.controls.Project.valid">
+                        Project is required.
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Add Task :</label>
+                      <textarea type="text" style="line-height:1.5" class="form-control" formControlName="Addtask">
+                      </textarea>
+                      <span class="help-block" *ngIf="istask && !task.controls.Addtask.valid">
+                        Task is required.
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group col-md-4">
+                      <label class="form-label">Time :</label>
+                      <div class="ngx-timepicker-field-example">
+                        <ngx-timepicker-field formControlName="time" [controlOnly]="true" #time [defaultTime]="'00:00'"
+                          [format]="24">
+                        </ngx-timepicker-field>
+                        <span class="help-block" *ngIf="istask && !task.controls.time.valid">
+                          Time is required.
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label class="form-label">Date :</label>
+                      <div class="input-with-icon  right">
+                        <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker [bsValue]="bsValue"
+                          formControlName="date">
+                        <span class="help-block" *ngIf="istask && !task.controls.date.valid">
+                          Date is required.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pull-left">
+                  <button class="btn btn-success btn-cons" type="submit">
+                    <i class="icon-ok"></i> Save
+                  </button>
+                  <button [routerLink]="['/page/home']" routerLinkActive="router-link-active"
+                    class="btn btn-white btn-cons" type="button">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 20px" *ngIf="!isAdmin">
+      <div class="col-md-12">
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <div class="row-fluid">
+              <div class="span12">
+                <div class="grid simple ">
+                  <div class="grid-title">
+                    <form [formGroup]="filterData" (ngSubmit)="filtertask(filterData.value)">
+                      <div class="row form-row mr-2">
+                        <div class="col-md-3">
+                          <ng-select [options]="options" [multiple]="true" formControlName="type"
+                            placeholder="Select Project" [noFilter]="noFilterThreshold">
+                          </ng-select>
+                        </div>
+                        <div class="col-md-3">
+                          <input type="text" class="form-control" (dblclick)="cleatInputboxFillter()"
+                            formControlName="Search" placeholder="General Search....." />
+                        </div>
+                        <div class="col-md-3">
+                          <button type="button" class="btn btn-outline-primary pb-0  mr-2" type="submit">
+                            <i class="material-icons">
+                              arrow_forward
+                            </i>
+                          </button>
+                          <button type="button" class="btn btn-outline-dark pb-0" (click)="getTimeSheetData()">
+                            <i class="material-icons">
+                              refresh
+                            </i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <ngx-datatable class="material" [rows]="rows" [columnMode]="'force'" [headerHeight]="60"
+                    [footerHeight]="60" [limit]="5" [rowHeight]="'auto'" [sortType]="'single'">
+                    <ngx-datatable-column name="Employee Name" *ngIf="isAdmin">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.EmployeeName }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Project Name">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.ProjectName }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Task">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.Addtask }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Date">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.Date }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Time">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.Time }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 20px" *ngIf="isAdmin">
+      <div class="col-md-12">
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <div class="row-fluid">
+              <div class="span12">
+                <div class="grid simple ">
+                  <div class="grid-title">
+                    <form [formGroup]="adminfilter" (ngSubmit)="adminfilterProjectTask(adminfilter.value)">
+                      <div class="row form-row mr-2">
+                        <div class="col-md-3">
+                          <ng-select [options]="options" [multiple]="true" formControlName="admintype"
+                            placeholder="Select Project" [noFilter]="noFilterThreshold">
+                          </ng-select>
+                        </div>
+                        <div class="col-md-3">
+                          <input type="text" placeholder="Daterangepicker" formControlName="adminSerchDate"
+                            (dblclick)="cleatInputboxFillter()" class="form-control" bsDaterangepicker
+                            [bsConfig]="{ isAnimated: true }" />
+                        </div>
+                        <div class="col-md-3">
+                          <input type="text" class="form-control" (dblclick)="cleatInputboxFillter()"
+                            formControlName="adminSearch" placeholder="General Search....." />
+                        </div>
+                        <div class="col-md-3">
+                          <button type="button" class="btn btn-outline-primary pb-0  mr-2" type="submit">
+                            <i class="material-icons">
+                              arrow_forward
+                            </i>
+                          </button>
+                          <button type="button" class="btn btn-outline-dark pb-0" (click)="getTimeSheetData()">
+                            <i class="material-icons">
+                              refresh
+                            </i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <mat-accordion>
+                    <mat-expansion-panel *ngFor="
+                        let item of rows
+                          | paginate
+                            : {
+                                itemsPerPage: 10,
+                                currentPage: p1,
+                                id: 'first'
+                              };
+                        let i = index
+                      ">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          {{ item.emp.Fname }}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          {{ item.emp.Email }}
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <table class="table table-striped" id="example2">
+                        <thead>
+                          <tr>
+                            <th>Project Name</th>
+                            <th>Add Task</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="odd gradeX"
+                            *ngFor="let list of item.data2 | reverse | paginate : { itemsPerPage: 10, currentPage: i, id: item.emp.Email} ">
+                            <td>{{ list.ProjectName }}</td>
+                            <td>{{ list.Addtask }}</td>
+                            <td>{{ list.Date }}</td>
+                            <td>{{ list.Time }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <div class="row mt-5">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4 border-top"></div>
+                      </div>
+                      <div class="pt-2 d-flex " style="justify-content: flex-end">
+                        <pagination-controls (pageChange)="i = $event" id="{{ item.emp.Email }}">
+                        </pagination-controls>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+                <div class="d-flex justify-content-center" style="margin-right: 40px;">
+                  <pagination-controls (pageChange)="p1 = $event" id="first"></pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

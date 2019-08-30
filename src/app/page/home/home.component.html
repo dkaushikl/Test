@@ -1,0 +1,62 @@
+<div class="page-content">
+  <div class="content sm-gutter">
+    <div class="row" *ngFor="let item of totalProject">
+
+      <div class="col-md-4 col-vlg-3 col-sm-4" *ngIf="isAdmin">
+        <div class="tiles green m-b-10">
+          <div class="tiles-body">
+            <div class="widget-stats">
+              <div class="wrapper transparent" style="border-right: none;">
+                <span class="item-title" style="font-size: 38px">Total Employee</span>
+                <span class="item-count animate-number semi-bold" style="font-size: 58px"
+                  data-animation-duration="1000">{{item.totalEmployee}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-vlg-3 col-sm-4">
+        <div class="tiles purple m-b-10">
+          <div class="tiles-body">
+            <div class="widget-stats">
+              <div class="wrapper transparent" style="border-right: none;">
+                <span class="item-title" style="font-size: 38px">Total Project</span>
+                <span class="item-count animate-number semi-bold" style="font-size: 58px"
+                  data-animation-duration="10000">{{item.totalProject}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-vlg-3 col-sm-4" *ngIf="!isAdmin">
+        <div class="tiles blue  m-b-10">
+          <div class="tiles-body">
+            <div class="widget-stats">
+              <div class="wrapper transparent" style="border-right: none;">
+                <span class="item-title" style="font-size: 38px">Total Leave Reqest</span>
+                <span class="item-count animate-number semi-bold" style="font-size: 58px"
+                  data-animation-duration="10000">{{item.totalleave}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-md-4 col-vlg-3 col-sm-4" *ngIf="!isAdmin">
+        <div class="tiles red m-b-10">
+          <div class="tiles-body">
+            <div class="widget-stats">
+              <div class="wrapper transparent" style="border-right: none;">
+                <span class="item-title" style="font-size: 38px">Total Time</span>
+                <span class="item-count animate-number semi-bold"
+                  style="font-size: 58px">{{ totalHours }}:{{ totalMins }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

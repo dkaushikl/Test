@@ -1,0 +1,76 @@
+<!-- <div class="page-content">
+  <div class="content">
+    <div class="page-title">
+      <i [routerLink]="['/page/home']" routerLinkActive="router-link-active" style="cursor: pointer"
+        class="icon-custom-left"></i>
+      <h3 style="padding-top: 10px">Timer Report</h3>
+    </div>
+
+    <div class="row" style="padding-top: 20px" *ngIf="isAdmin">
+      <div class="col-md-12">
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <div class="row-fluid">
+              <div class="span12">
+                <div class="grid simple ">
+                  <div class="grid-title">
+                  </div>
+                  <mat-accordion>
+                    <mat-expansion-panel *ngFor="
+                          let item of rows
+                            | paginate
+                              : {
+                                  itemsPerPage: 10,
+                                  currentPage: p1,
+                                  id: 'first'
+                                };
+                          let i = index
+                        ">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          {{ item.empolyeename }}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          {{ item.emaployeeemeail }}
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <table class="table table-striped" id="example2">
+                        <thead>
+                          <tr>
+                            <th>Date</th>
+                            <th>Total Time</th>
+                            <th>Log Count (On-Off Timer)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="odd gradeX"
+                            *ngFor="let list of item.data | paginate : { itemsPerPage: 10, currentPage: i, id: item.emaployeeemeail} ">
+                            <td>{{ list.date | date }}</td>
+                            <td>{{ list.totaltime.hours }} Hours : {{ list.totaltime.minutes }} Minutes</td>
+                            <td>{{ list.sessionno }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <div class="row mt-5">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4 border-top"></div>
+                      </div>
+                      <div class="pt-2 d-flex " style="justify-content: flex-end">
+                        <pagination-controls (pageChange)="i = $event" id="{{ item.emaployeeemeail }}">
+                        </pagination-controls>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+                <div class="d-flex justify-content-center" style="margin-right: 40px;">
+                  <pagination-controls (pageChange)="p1 = $event" id="first"></pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

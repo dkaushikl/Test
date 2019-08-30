@@ -1,0 +1,14 @@
+
+
+.menuBtn{
+    border: none;
+    outline: none;
+    background-color: white;
+    }
+    
+    .menuBtn:hover{
+        border: none;
+        outline: none;
+     background-color: #eeeeee   
+    } 
+    

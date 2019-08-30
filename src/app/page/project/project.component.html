@@ -1,0 +1,144 @@
+<div class="page-content">
+  <div class="content">
+    <div class="page-title">
+      <i [routerLink]="['/page/home']" routerLinkActive="router-link-active" style="cursor: pointer"
+        class="icon-custom-left"></i>
+      <h3 style="padding-top: 10px">Project Detail</h3>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="grid simple">
+          <div class="grid-title no-border">
+            <h4><span class="semi-bold"></span></h4>
+            <div class="tools"></div>
+            <div class="pull-left" style="padding-bottom: 10px" *ngIf="isAdmin">
+              <button class="btn btn-primary btn-cons" [routerLink]="['/page/addproject']" routerLinkActive="active">
+                Add Project
+              </button>
+            </div>
+            <div class="row-fluid">
+              <div class="span12">
+                <div class="grid simple ">
+                  <div class="grid-title">
+                    <h4 style="font-family: monospace; font-size: xx-large;">
+                      Project List
+                    </h4>
+                    <form [formGroup]="filterData" (ngSubmit)="getProjectDataFilter(filterData.value)">
+                      <div class="row form-row mr-2">
+                        <div class="col-md-4">
+                          <ng-select [options]="options" [multiple]="true" formControlName="type"
+                            placeholder="Select employee name">
+                          </ng-select>
+                        </div>
+                        <div class="col-md-3">
+                          <input type="text" class="form-control" (dblclick)="cleatInputboxFillter()"
+                            formControlName="Search" placeholder="General Search....." />
+                        </div>
+                        <div class="col-md-3">
+                          <button type="button" class="btn btn-outline-primary pb-0  mr-2" type="submit">
+                            <i class="material-icons">
+                              arrow_forward
+                            </i>
+                          </button>
+                          <button type="button" class="btn btn-outline-dark pb-0" (click)="getProjectData()">
+                            <i class="material-icons">
+                              refresh
+                            </i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <ngx-datatable class="material" [rows]="rows" [columnMode]="'force'" [headerHeight]="60"
+                    [footerHeight]="60" [limit]="10" [rowHeight]="'auto'" [sortType]="'single'">
+                    <ngx-datatable-column name="Project Name">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.projectName }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Client Name">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.clientName }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Client Refrence" *ngIf="isAdmin">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.ClientRefrence  }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Client Country" *ngIf="isAdmin">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.ClientCountry }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Project Type" *ngIf="isAdmin">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.projectType }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Employee Name">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <a *ngFor="let item of row.teamLeader">
+                          &nbsp;
+                          {{ item.Name }}
+                        </a>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Estimated Hours">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.estimatedHours }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Start Date">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.startDate }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="End Date">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <a *ngIf="row && row.EndDate">{{ row.EndDate }}</a>
+                        <a *ngIf="row && !row.EndDate">------------</a>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Assigned By">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.AdminName }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Admin Comment">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.adminComment }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column name="Action" *ngIf="isAdmin">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu"
+                          aria-label="Example icon-button with a menu">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item style="outline: none" (click)="updateproject(row._id)">
+                            <i class="fa fa-edit" style="font-size:22px"></i>
+                            <span style="padding-left: 15px; font-size: 15px">Edit
+                            </span>
+                          </button>
+                          <button mat-menu-item (click)="deleteProject(row._id)">
+                            <i class="fa fa-trash-o" style="font-size:22px"></i>
+                            <span style="padding-left: 20px; font-size: 15px">Delete
+                            </span>
+                          </button>
+                        </mat-menu>
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

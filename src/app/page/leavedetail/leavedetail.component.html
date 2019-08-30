@@ -1,0 +1,290 @@
+<div class="page-content">
+    <div class="content">
+        <div class="page-title">
+            <i [routerLink]="['/page/home']" routerLinkActive="router-link-active" style="cursor: pointer"
+                class="icon-custom-left"></i>
+            <h3 style="padding-top: 10px"> Leave Detail</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="grid simple">
+                    <div class="grid-title no-border">
+                        <h4> <span class="semi-bold"></span></h4>
+                        <div class="tools">
+                        </div>
+                        <div class="pull-left" style="padding-bottom: 10px">
+                            <button class="btn btn-primary btn-cons " data-toggle="modal" data-target="#myModal"
+                                routerLinkActive="router-link-active" *ngIf="!isAdmin">
+                                Add Leave</button>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <div class="grid simple ">
+                                    <div class="grid-title">
+                                        <h4 style="font-family: monospace;
+                                        font-size: xx-large;"> Leave List</h4>
+                                        <form [formGroup]="filterData"
+                                            (ngSubmit)="SearchleaveEmployee(filterData.value)">
+                                            <div class="row form-row mr-2">
+                                                <div class="col-md-6">
+                                                    <ng-select [options]="leavetypeOptions" [multiple]="true"
+                                                        placeholder="Select leave reason" formControlName="type">
+                                                    </ng-select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control"
+                                                        (dblclick)="cleatInputboxFillter()" formControlName="Search"
+                                                        placeholder="General Search.....">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="button" class="btn btn-outline-primary pb-0  mr-2"
+                                                        type="submit">
+                                                        <i class="material-icons">
+                                                            arrow_forward
+                                                        </i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-dark pb-0"
+                                                        (click)="EmployeeleaveDetail()">
+                                                        <i class="material-icons">
+                                                            refresh
+                                                        </i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <ngx-datatable class="material" [rows]="rows" [columnMode]="'force'"
+                                        [headerHeight]="60" [footerHeight]="60" [limit]="10" [rowHeight]='"auto"'
+                                        [sortType]='"single"'>
+                                        <ngx-datatable-column name="Employee Name">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                {{row.EmployeeName}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Employee Email">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                {{row.EmployeeEmail}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Leave Reasons">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                {{row.Reason}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Leave Type">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                {{row.TypeName}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Date">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                {{row.FromDate}} - {{ row.ToDate}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+
+                                        <ngx-datatable-column name="Other Remark">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                {{row.Reamrks}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+
+                                        <ngx-datatable-column name="Status" prop="action">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex"
+                                                let-value="value" let-row="row">
+                                                <a style="font-size: 15px; color:red"
+                                                    *ngIf="row.Status === '2'">Decline</a>
+                                                <a style="font-size: 15px; color:green"
+                                                    *ngIf="row.Status === '1'">Accept</a>
+                                                <a style="font-size: 15px; color:steelblue"
+                                                    *ngIf="row.Status === '0'">Pending...</a>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+
+                                        <ngx-datatable-column name="Action" *ngIf="isAdmin">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                <button mat-icon-button [matMenuTriggerFor]="menu" class="menuBtn"
+                                                    aria-label="Example icon-button with a menu">
+                                                    <mat-icon>more_vert</mat-icon>
+                                                </button>
+                                                <mat-menu #menu="matMenu">
+                                                    <button mat-menu-item (click)="Accept(row._id , 1)"
+                                                        style="outline: none" data-toggle="modal" data-target="#Accept"
+                                                        *ngIf="row.Status === '2' || row.Status === '0'">
+                                                        <i class="fa fa-check-square" style="font-size:22px"></i>
+                                                        <span style="padding-left: 16px; font-size: 15px">Accept</span>
+                                                    </button>
+                                                    <button mat-menu-item (click)="Decline(row._id , 2)"
+                                                        style="outline: none" data-toggle="modal" data-target="#Decline"
+                                                        *ngIf="row.Status === '1' || row.Status === '0' ">
+                                                        <i class="fa fa-times-circle" style="font-size:22px"></i>
+                                                        <span style="padding-left: 16px; font-size: 15px">Decline</span>
+                                                    </button>
+                                                    <button mat-menu-item (click)="deleteleave(row._id)">
+                                                        <i class="fa fa-trash-o" style="font-size:22px"></i>
+                                                        <span style="padding-left: 20px; font-size: 15px">Delete </span>
+                                                    </button>
+                                                </mat-menu>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Admin Commite">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                {{row.AdminCommite}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <ngx-datatable-column name="Approved by">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                {{row.adminName}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                    </ngx-datatable>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Leave </h5>
+                <button type="button" class="close" #closeBtn data-dismiss="modal">&times;</button>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid simple form-grid">
+                        <div class="grid-body no-border">
+                            <form [formGroup]="leave" (ngSubmit)="submit(leave.value,leave.valid)">
+                                <div class="form-group">
+                                    <label class="form-label">Leave Reasons : </label>
+                                    <div class="input-with-icon right">
+                                        <input type="text" class="form-control" formControlName="leavereasons">
+                                        <span class="help-block"
+                                            *ngIf="isLeaveData && !(leave.controls.leavereasons.valid)">
+                                            leave Reasons is required. </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Leave Type :</label>
+                                    <ng-select [options]="leavetypeOptions" formControlName="leavetype">
+                                    </ng-select>
+                                    <span class="help-block" *ngIf="isLeaveData && !(leave.controls.leavetype.valid)">
+                                        Leave Type is required. </span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Date :</label>
+                                    <div class="input-with-icon  right">
+                                        <input type="text" placeholder="Daterangepicker" formControlName="date"
+                                            class="form-control" bsDaterangepicker [bsConfig]="{ isAnimated: true }">
+                                        <span class="help-block" *ngIf="isLeaveData && !(leave.controls.date.valid)">
+                                            Date is required. </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Other Remark :</label>
+                                    <div class="input-with-icon right">
+                                        <textarea type="text" style="line-height:2.5" class="form-control"
+                                            formControlName="otherremark">
+                                        </textarea>
+                                        <span class="help-block"
+                                            *ngIf="isLeaveData && !(leave.controls.otherremark.valid)">
+                                            Other Remark is required. </span>
+                                    </div>
+                                </div>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-danger btn-cons"><i class="icon-ok"></i>
+                                        Save</button>
+                                    <button style="background-color: #e5e9ec;" data-dismiss="modal" type="button"
+                                        class="btn btn-white btn-cons">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Accept">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Admin Commite </h5>
+                <button type="button" class="close" #closeBtnAccept data-dismiss="modal">&times;</button>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid simple form-grid">
+                        <div class="grid-body no-border">
+                            <form (ngSubmit)="acceptsubmit($event)">
+                                <div class="form-group">
+                                    <label class="form-label"> Remark :</label>
+                                    <div class="input-with-icon right">
+                                        <textarea type="text" name="accept" style="line-height:2.5"
+                                            class="form-control">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="pull-right">
+                                    <button type="acceptsubmit" class="btn btn-danger btn-cons"><i class="icon-ok"></i>
+                                        Save</button>
+                                    <button style="background-color: #e5e9ec;" data-dismiss="modal" type="button"
+                                        class="btn btn-white btn-cons">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Decline">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Admin Commite </h5>
+                <button type="button" class="close" #closeBtnDecline data-dismiss="modal">&times;</button>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid simple form-grid">
+                        <div class="grid-body no-border">
+                            <form (ngSubmit)="declinesubmit($event)">
+                                <div class="form-group">
+                                    <label class="form-label"> Remark :</label>
+                                    <div class="input-with-icon right">
+                                        <textarea type="text" name="decline" style="line-height:2.5"
+                                            class="form-control">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="pull-right">
+                                    <button type="declinesubmit" class="btn btn-danger btn-cons"><i class="icon-ok"></i>
+                                        Save</button>
+                                    <button style="background-color: #e5e9ec;" data-dismiss="modal" type="button"
+                                        class="btn btn-white btn-cons">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="slider">
+  <div class="page-sidebar" id="main-menu">
+    <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
+      <ul>
+        <li>
+          <a [routerLink]="['/page/home']" routerLinkActive="router-link-active"><i class="material-icons">home</i>
+            <span class="title">Dashboard</span> <span class="selected"></span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/page/project']" routerLinkActive="router-link-active">
+            <i class="material-icons">rate_review </i>
+            <span class="title">Project</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/page/timesheet']" routerLinkActive="router-link-active">
+            <i class="material-icons">airplay</i>
+            <span class="title">Timesheet </span>
+          </a>
+        </li>
+        <li *ngIf="isAdmin">
+          <a [routerLink]="['/page/Employee']" routerLinkActive="router-link-active">
+            <i class="material-icons">account_circle</i>
+            <span class="title">Employee </span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/page/leaveDetaile']" routerLinkActive="router-link-active">
+            <i class="material-icons">email</i>
+            <span class="title">Leave Detail </span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/page/support-ticket']" routerLinkActive="router-link-active">
+            <i class="material-icons">web</i>
+            <span class="title"> Support Ticket </span>
+          </a>
+        </li>
+
+        <!-- <li *ngIf="isAdmin">
+          <a [routerLink]="['/page/timer']" routerLinkActive="router-link-active">
+            <i class="material-icons">alarm_add</i>
+            <span class="title"> Timer </span>
+          </a>
+        </li> -->
+
+        <li>
+          <a [routerLink]="['/ui/forums']" routerLinkActive="router-link-active">
+            <i class="material-icons">local_activity</i>
+            <span class="title"> Forums </span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="page-content">
+    <div class="content">
+        <div class="page-title"> <i [routerLink]="['/page/home']" style="cursor: pointer"
+                routerLinkActive="router-link-active" class="icon-custom-left"></i>
+            <h3 style="padding-top: 10px"> Forum Details</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-4" style="padding-top: 40px">
+                <div class="grid simple" style="margin-left: 100px">
+                    <a (click)="callComponet(1)" style="cursor: pointer ;color: #007bff">
+                        <i class="fa fa-hand-o-right" style="font-size:24px"> Company Policies</i>
+                    </a>
+                </div>
+                <div class="grid simple" style="margin-left: 100px">
+                    <a (click)="callComponet(2)" style="cursor: pointer ;color: #007bff">
+                        <i class="fa fa-hand-o-right" style="font-size:24px"> Company Schemes
+                        </i>
+                    </a>
+                </div>
+                <div class="grid simple" style="margin-left: 100px">
+                    <a (click)="callComponet(3)" style="cursor: pointer ;color: #007bff">
+                        <i class="fa fa-hand-o-right" style="font-size:24px"> Web Designer Community</i>
+                    </a>
+                </div>
+                <div class="grid simple" style="margin-left: 100px">
+                    <a (click)="callComponet(4)" style="cursor: pointer ;color: #007bff">
+                        <i class="fa fa-hand-o-right" style="font-size:24px"> Coding Standards
+                        </i>
+                    </a>
+                </div>
+                <div class="grid simple" style="margin-left: 100px">
+                    <a (click)="callComponet(5)" style="cursor: pointer ;color: #007bff">
+                        <i class="fa fa-hand-o-right" style="font-size:24px"> English
+                        </i>
+                    </a>
+                </div>
+
+            </div>
+            <div class="col-md-8">
+                <div class="grid simple">
+                    <div class="grid-title no-border">
+                        <div class="scrollbar">
+                            <app-company-policies *ngIf="option === 1"></app-company-policies>
+                            <app-company-schemes *ngIf="option=== 2"></app-company-schemes>
+                            <app-web-designer-community *ngIf="option=== 3"></app-web-designer-community>
+                            <app-coding-standards *ngIf="option=== 4"></app-coding-standards>
+                            <app-english *ngIf="option=== 5"></app-english>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

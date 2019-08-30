@@ -1,0 +1,211 @@
+<div class="page-content">
+    <div class="content">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="profile-img" *ngIf="profileData && profileData.Profileimage">
+                                <img style="height: 200px ; width: 260px;"
+                                    src="{{imageEnvironment + profileData.Profileimage}}" class="img-thumbnail">
+                                <div class="file btn btn-lg btn-primary">
+                                    Change Photo
+                                </div>
+                                <input type="file" accept="image/x-png,image/gif,image/jpeg"
+                                    (change)="ProfilePhotoChange($event.target.files)"
+                                    style="opacity: 0.0; width: 88%;position: absolute;top: 160px; " />
+                            </div>
+
+                            <div class="profile-img" *ngIf="profileData && !profileData.Profileimage">
+                                <img style="height: 200px ; width: 260px;" src="../../../assets/download.png"
+                                    class="img-thumbnail">
+                                <input type="file" accept="image/x-png,image/gif,image/jpeg"
+                                    (change)="ProfilePhotoChange($event.target.files)"
+                                    style="opacity: 0.0; width: 88%;position: absolute;top: 160px; " />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row profile-head" *ngIf="profileData">
+                                <div class="col-md-12">
+                                    <h2> {{profileData.Fname}} {{profileData.Lname }} </h2>
+                                </div>
+                                <div class="col-md-12">
+                                    <h6 class="text-info">
+                                        <p> {{profileData.DesignationName}}</p>
+                                    </h6>
+                                </div>
+                                <div class="col-md-12">
+                                    <p class="proile-rating">RANKINGS : <span>8/10</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="float-right profile-edit-btn" data-toggle="modal"
+                                data-target="#myProfileModal">Edit
+                                Profile</button>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="profile-work">
+                                <p style="color: #0062cc"> My SKILLS</p>
+                                <a *ngFor="let user of skillName">
+                                    <a>{{ user.Name}}</a> <br>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-7" *ngIf="profileData">
+                            <mat-tab-group>
+                                <mat-tab label="About">
+                                    <div class="profile-tab  mt-4">
+                                        <div class="row  mr-0 ml-0">
+                                            <div class="col-md-6">
+                                                <label>Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{profileData.Fname }} </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row  mr-0 ml-0">
+                                            <div class="col-md-6">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <p> {{profileData.Email}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row  mr-0 ml-0">
+                                            <div class="col-md-6">
+                                                <label>Birth Date</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{profileData.DOB}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row  mr-0 ml-0">
+                                            <div class="col-md-6">
+                                                <label>Phone</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{profileData.Phoneno}}</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </mat-tab>
+                                <mat-tab label="Timeline">
+                                    <div class="profile-tab  mt-4">
+                                        <div class="row  mr-0 ml-0">
+                                            <div class="col-md-6">
+                                                <label>Experience</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{profileData.TotalExperience}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row  mr-0 ml-0">
+                                            <div class="col-md-6">
+                                                <label>Role</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{profileData.DesignationName}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row  mr-0 ml-0" *ngIf="profileData && profileData.Aadharno">
+                                            <div class="col-md-6">
+                                                <label>Aadhar Number</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{profileData.Aadharno}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row  mr-0 ml-0" *ngIf="profileData && profileData.Panno">
+                                            <div class="col-md-6">
+                                                <label>Pan Number </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{profileData.Panno}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row  mr-0 ml-0">
+                                            <div class="col-md-6">
+                                                <label>Joining Date</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{profileData.DOJ}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="myProfileModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Profile </h5>
+                <button type="button" class="close" #closeBtn data-dismiss="modal">&times;</button>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid simple form-grid">
+                        <div class="grid-body no-border">
+                            <form [formGroup]="profile" (ngSubmit)="submit(profile.value, profile.valid)">
+                                <div class="form-group">
+                                    <label class="form-label">Phone : </label>
+                                    <div class="input-with-icon right">
+                                        <input type="text" class="form-control" formControlName="phone" maxlength="10"
+                                            appNumberOnly>
+                                        <span class="help-block" *ngIf="isprofile && !(profile.controls.phone.valid)">
+                                            phone number is required. </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Skills :</label>
+                                    <div class="input-with-icon right">
+                                        <ng-select [options]="options" formControlName="ProfileSkills" [multiple]="true"
+                                            >
+                                        </ng-select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Profile Photo :</label>
+                                    <input #file style="border: none" type="file"
+                                        (change)="profileImage($event.target.files)" formControlName="profileimage">
+                                </div>
+
+
+                                <div class="form-actions">
+                                    <div class="pull-right">
+                                        <button type="submit" class="btn btn-danger btn-cons"><i class="icon-ok"></i>
+                                            Save</button>
+                                        <button style="background-color: #e5e9ec;" data-dismiss="modal" type="button"
+                                            class="btn btn-white btn-cons">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

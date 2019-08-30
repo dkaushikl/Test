@@ -1,0 +1,120 @@
+<div class="page-content">
+  <div class="content">
+    <div class="page-title">
+      <i [routerLink]="['/page/home']" style="cursor: pointer" routerLinkActive="router-link-active"
+        class="icon-custom-left"></i>
+      <h3 style="padding-top: 10px">
+        Support Ticket
+      </h3>
+      <button class="btn btn-primary btn-cons" type="button" (click)="ticketStatus()" *ngIf="!isAdmin">
+        New Ticket
+      </button>
+    </div>
+
+    <div class="row" *ngIf="isTicket">
+      <div class="col-md-12">
+        <div class="grid simple transparent" id="new-ticket-wrapper" style="display: block;">
+          <div class="grid-title no-border">
+            <h4 class="semi-bold">How can we help you?</h4>
+          </div>
+          <div class="grid-body">
+            <form [formGroup]="supportTicket" (ngSubmit)="submit(supportTicket.value,supportTicket.valid)">
+              <div class="row form-row">
+                <div class="col-md-8">
+                  <input type="text" placeholder="Subject" class="form-control" formControlName="subject">
+                  <span class="help-block" *ngIf="isSupportTicket && !(supportTicket.controls.subject.valid)">
+                    Subject is required. </span>
+                </div>
+                <div class="col-md-4">
+                  <input type="text" placeholder="Department" class="form-control" formControlName="department">
+                  <span class="help-block" *ngIf="isSupportTicket && !(supportTicket.controls.department.valid)">
+                    Department is required. </span>
+                </div>
+              </div>
+              <div class="row form-row">
+                <div class="col-md-12">
+                  <textarea rows="6" class="form-control" placeholder="Please detail your issue or question"
+                    formControlName="detail"></textarea>
+                  <span class="help-block" *ngIf="isSupportTicket && !(supportTicket.controls.detail.valid)">
+                    Please enter your issue or question. </span>
+                </div>
+              </div>
+              <div class="row form-row">
+                <div class="col-md-12 margin-top-10">
+                  <div class="pull-right">
+                    <button class="btn btn-cons" style="background-color : #d1dade; outline: none" type="button"
+                      id="btn-close-ticket" (click)="changeTicketStatus()">Close</button>
+                    <button class="btn btn-primary btn-cons" style="background-color: #0aa699; outline: none"
+                      type="submit">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="grid simple transparent">
+          <div class="grid-title no-border">
+            <h4>Open <span class="semi-bold">Tickets</span></h4>
+            <div class="grid simple no-border" style="background-color:#fff"
+              *ngFor="let item of supportTicketData | paginate: { itemsPerPage: 5, currentPage:p }; let i =index">
+              <div class="grid-title no-border" style="cursor: pointer; border-bottom: none"
+                (click)="ticketsDetailStatus(i)">
+                <h4 class="semi-bold">{{ item.subject}}</h4>
+                <p><span class="text-success bold">Ticket
+                    #{{item.TicketNo}}</span>
+                  Created on {{item.createdAt | date:'medium' }} <span class="label label-important"
+                    *ngIf="item.AlertStatus === 'true'">ALERT</span><i class="fa fa-close"
+                    (click)="deleteticket(item._id)" style="font-size:38px; margin-left: 67%"></i>
+                </p>
+              </div>
+              <div class="grid-body no-border show{{i}}" style="display: none">
+                <div class="user-profile-pic-wrapper" style="display: flex;padding-bottom: 2%;"
+                  *ngFor="let data of item.detail">
+                  <div class="user-profile-pic-normal">
+                    <img width="35" height="35" data-src-retina="assets/img/profiles/avatar_small2x.jpg"
+                      src="{{ imageEnvironment + data.Photo }}" alt="" *ngIf="data && data.Photo">
+                    <img src="../../../assets/download.png" alt="Trulli" width="35" height="35"
+                      *ngIf="data && !data.Photo">
+                  </div>
+                  <div style="padding-left: 2%; width: 70%;overflow-wrap: break-word;">
+                    Hi <br>
+                    {{ data.message}} <br>
+                    {{ data.Name}}
+                  </div>
+                  <br>
+                </div>
+                <div class="form-actions">
+                  <div class="post col-md-12">
+                    <div class="user-profile-pic-wrapper">
+                      <div class="user-profile-pic-normal">
+                      </div>
+                    </div>
+                    <div class="info-wrapper">
+                      <form [formGroup]="replay">
+                        <div class="controls">
+                          <input type="text" class="form-control" formControlName="replayMessage">
+                          <span class="help-block" *ngIf="isreplay && !(replay.controls.replayMessage.valid)">
+                            Message is required. </span>
+                        </div>
+                        <label style="cursor: pointer" (click)="newMessage(replay.value,replay.valid ,item._id , i)"
+                          class="form-label"><i class="fa fa-reply"></i>&nbsp;Post a reply</label>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pt-2 d-flex " style="justify-content: flex-end">
+              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

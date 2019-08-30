@@ -1,0 +1,234 @@
+<div class="page-content">
+    <div class="content">
+        <div class="page-title"> <i [routerLink]="['/page/Employee']" style="cursor: pointer"
+                routerLinkActive="router-link-active" class="icon-custom-left"></i>
+            <h3 style="padding-top: 10px" *ngIf="!updateEmployee"> Add Employee Detail </h3>
+            <h3 style="padding-top: 10px" *ngIf="updateEmployee"> Edit Employee Detail </h3>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="grid simple">
+                    <div class="grid-title no-border">
+                        <h4> <span class="semi-bold"></span></h4>
+                    </div>
+                    <form [formGroup]="employee" (ngSubmit)="submit(employee.value,employee.valid)">
+                        <div class="grid-body no-border">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">First Name :</label>
+                                        <div class="input-with-icon right">
+                                            <input class="form-control" id="form1CardHolderName" formControlName="Fname"
+                                                name="form1CardHolderName" type="text">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && !(employee.controls.Fname.valid)">
+                                                First name is required. </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Last Name :</label>
+                                        <div class="input-with-icon right">
+                                            <input class="form-control" id="form1CardHolderName"
+                                                name="form1CardHolderName" type="text" formControlName="Lname">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && !(employee.controls.Lname.valid)">
+                                                Last name is required. </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Birth Date :</label> <br>
+                                        <div class="input-with-icon right">
+                                            <input type="text" formControlName="DOB" class="form-control" bsDatepicker
+                                                [maxDate]="maxDate">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('DOB').hasError('required')">
+                                                Birthdate is required. </span>
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('DOB').hasError('max') && !employee.get('DOB').hasError('required')">
+                                                Birthdate is not valid. </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Email :</label>
+                                        <div class="input-with-icon right">
+                                            <i class=""></i>
+                                            <input class="form-control" type="text" formControlName="Email">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('Email').hasError('required')">
+                                                Email is required. </span>
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('Email').hasError('email')">
+                                                Email not valid. </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Address :</label>
+                                        <div class="input-with-icon right">
+                                            <i class=""></i>
+                                            <input class="form-control" type="text" formControlName="Address">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && !(employee.controls.Address.valid)">
+                                                Address is required. </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Phone No :</label>
+                                        <div class="input-with-icon right">
+                                            <input class="form-control" type="text" maxlength="10" appNumberOnly
+                                                formControlName="Phoneno">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('Phoneno').hasError('required')">
+                                                Phoneno is required. </span>
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('Phoneno').hasError('minlength') && !employee.get('Phoneno').hasError('required')">
+                                                Phone number is not valid. </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Refrence Name :</label>
+                                        <div class="input-with-icon right">
+                                            <i class=""></i>
+                                            <input class="form-control" type="text" formControlName="Refrence">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label"> Updated Resume :</label>
+                                        <div class="custom-file mb-3">
+                                            <input type="file" class="custom-file-input" accept=".doc, .docx,.txt,.pdf"
+                                                (change)="onResumeSelected($event.target.files)"
+                                                formControlName="Resume" name="filename">
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group" *ngIf="!updateEmployee">
+                                        <label class="form-label">Password :</label>
+                                        <div class="input-with-icon right">
+                                            <input class="form-control" type="password" formControlName="Password">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('Password').hasError('required')">
+                                                Password is required. </span>
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('Password').hasError('minlength') && !employee.get('Password').hasError('required')">
+                                                Password not Strong. </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Total Experience :</label>
+                                        <div class="input-with-icon right">
+                                            <i class=""></i>
+                                            <input class="form-control" type="text" maxlength="3" appNumberOnly
+                                                formControlName="TotalExperience">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && !(employee.controls.TotalExperience.valid)">
+                                                Total experience is required. </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Salary</label>
+                                        <input class="form-control" type="text" maxlength="6" appNumberOnly
+                                            formControlName="Salary">
+                                        <span class="help-block" *ngIf="isLogin && !(employee.controls.Salary.valid)">
+                                            Salary is required. </span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Designation :</label>
+                                        <div class="input-with-icon right">
+                                            <ng-select [options]="DesignationOptions" formControlName="Designation">
+                                            </ng-select>
+                                            <span class="help-block"
+                                                *ngIf="isLogin && !(employee.controls.Designation.valid)">
+                                                Designation is required. </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Joining Dates:</label> <br>
+                                        <div class="input-with-icon right">
+                                            <input type="text" formControlName="DOJ" class="form-control"
+                                                [maxDate]="maxDate" bsDatepicker>
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('DOJ').hasError('required')">
+                                                Joining date is required. </span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="form-label">Leave Date:</label> <br>
+                                        <div class="input-with-icon right">
+                                            <input type="text" formControlName="DOL" class="form-control" bsDatepicker>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Pan No :</label>
+                                        <div class="input-with-icon right">
+                                            <input class="form-control" maxlength="10" type="text" #input
+                                                (input)="input.value=$event.target.value.toUpperCase()"
+                                                formControlName="Panno">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('Panno').hasError('minlength') && !employee.get('Panno').hasError('required')">
+                                                panno is 10 digit. </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input #files style="border: none" type="file" formControlName="PanPhoto"
+                                            (change)="previewPanCard($event.target.files)">
+                                        <div *ngIf='photoupdatepan'>
+                                            <img style="padding-top: 10px" [src]="imgPanCardUrl" height="50" width="50"
+                                                *ngIf="imgPanCardUrl">
+                                        </div>
+                                        <div *ngIf="updateEmployee && updateEmployee.PanPhoto && !photoupdatepan ">
+                                            <img style="padding-top: 10px"
+                                                src="{{imageEnvironment + updateEmployee.PanPhoto}}" height="50"
+                                                width="50">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Aadhar No :</label>
+                                        <div class="input-with-icon right">
+                                            <input class="form-control" maxlength="16" type="text" appNumberOnly
+                                                formControlName="Aadharno">
+                                            <span class="help-block"
+                                                *ngIf="isLogin && employee.get('Aadharno').hasError('minlength') && !employee.get('Aadharno').hasError('required')">
+                                                aadharno is 16 digit. </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input #file style="border: none" type="file" formControlName="AadharPhoto"
+                                            (change)="previewAadharCard($event.target.files)">
+                                        <div *ngIf="photoupdateAdhar">
+                                            <img style="padding-top: 10px" [src]="imgAadharCardUrl" height="50"
+                                                width="50" *ngIf="imgAadharCardUrl">
+                                        </div>
+                                        <div *ngIf="updateEmployee && updateEmployee.AadharPhoto && !photoupdateAdhar">
+                                            <img style="padding-top: 10px"
+                                                src="{{imageEnvironment + updateEmployee.AadharPhoto}}" height="50"
+                                                width="50">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pull-left">
+                                    <button class="btn btn-success btn-cons" type="submit"><i class="icon-ok"></i>
+                                        Save</button>
+                                    <button [routerLink]="['/page/home']" routerLinkActive="router-link-active"
+                                        class="btn btn-white btn-cons" type="button">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
